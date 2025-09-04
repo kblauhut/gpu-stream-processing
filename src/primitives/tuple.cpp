@@ -1,12 +1,15 @@
-#include <vector>
+#include "tuple.h"
 
-class Tuple {
-private:
-  std::vector<char> data;
-  std::vector<uint> offsets;
+Tuple::Tuple(const std::string &raw_data) {
+  // TODO: parse raw_data into `data` and `offsets`
+}
 
-public:
-  Tuple(std::string raw_data) {}
-  void getInt(size_t index) const {}
-  void getString(size_t index) const {}
-};
+int Tuple::getInt(size_t index) const {
+  // TODO: implement extraction
+  return 0;
+}
+
+std::string Tuple::getString(size_t index) const {
+  // TODO: implement extraction
+  return {};
+}

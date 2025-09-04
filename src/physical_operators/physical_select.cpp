@@ -1,21 +1,14 @@
-#include "physical_operator.cpp"
-#include <algorithm>
+#include "physical_select.h"
 
-class PhysicalSelect : public PhysicalOperator {
-private:
-  std::vector<size_t> columns;
+PhysicalSelect::PhysicalSelect(PhysicalOperator *producer_operator,
+                               const std::vector<size_t> &columns)
+    : PhysicalOperator(producer_operator) {
+  this->columns = columns;
+}
 
-public:
-  PhysicalSelect(PhysicalOperator *producer_operator,
-                 const std::vector<size_t> &columns)
-      : PhysicalOperator(producer_operator) {
-    this->columns = columns;
-  }
+void PhysicalSelect::produce() {
+  Tuple *input_tuple = producer_operator->consume(this);
+  Tuple output_tuple = Tuple(*input_tuple);
 
-  void execute() {
-    Tuple *input_tuple = producer_operator->next(this);
-    Tuple output_tuple = Tuple(*input_tuple);
-
-    publishTuple(output_tuple);
-  }
-};
+  publishTuple(output_tuple);
+}
