@@ -34,4 +34,10 @@ void PhysicalFileParse::produce() {
   // Move offset past the newline character for the next call
   file_buffer_offset =
       (line_end < file_buffer.size()) ? line_end + 1 : line_end;
+
+  Tuple tuple = Tuple();
+  tuple.pushInt(1);
+  tuple.pushString(line);
+
+  publishTuple(tuple);
 }

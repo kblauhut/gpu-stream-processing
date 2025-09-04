@@ -4,6 +4,6 @@
 
 class PhysicalStreamSource : public PhysicalOperator {
 public:
-  PhysicalStreamSource(PhysicalOperator *producer_operator);
+  explicit PhysicalStreamSource(PhysicalOperator *producer_operator);
   void produce();
 };

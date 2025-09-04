@@ -10,7 +10,7 @@ private:
   size_t file_buffer_offset = 0;
 
 public:
-  PhysicalFileParse(std::string file_path);
+  explicit PhysicalFileParse(std::string file_path);
 
   void produce();
 };

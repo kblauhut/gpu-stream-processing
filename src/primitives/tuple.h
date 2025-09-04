@@ -8,7 +8,8 @@ private:
   std::vector<unsigned int> offsets;
 
 public:
-  explicit Tuple(const std::string &raw_data);
+  void pushInt(int value);
+  void pushString(const std::string &value);
 
   int getInt(size_t index) const;
   std::string getString(size_t index) const;
