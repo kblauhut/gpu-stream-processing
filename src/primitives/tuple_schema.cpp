@@ -1,15 +1,6 @@
-#include <vector>
+#include "tuple_schema.h"
 
-enum class DataType {
-  INTEGER = 0,
-  FLOAT = 1,
-  STRING = 2,
-};
+TupleSchema::TupleSchema(std::vector<DataType> &dataTypes)
+    : dataTypes(dataTypes) {}
 
-class TupleSchema {
-private:
-  std::vector<DataType> dataTypes;
-
-public:
-  DataType getDataType(size_t index) { return dataTypes[index]; }
-};
+DataType TupleSchema::getDataType(size_t index) { return dataTypes[index]; }

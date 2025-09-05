@@ -34,3 +34,7 @@ void PhysicalOperator::registerConsumerOperator(
     PhysicalOperator *consumer_operator) {
   consumer_indices[consumer_operator] = this->current_tuple_index;
 }
+
+void PhysicalOperator::onTupleConsumed(PhysicalOperator *consumer) {
+  consumer_indices[consumer]++;
+}

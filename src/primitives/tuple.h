@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <vector>
 
 class Tuple {
@@ -8,7 +9,7 @@ private:
   std::vector<unsigned int> offsets;
 
 public:
-  void pushInt(int value);
+  void pushInt(size_t value);
   void pushString(const std::string &value);
 
   int getInt(size_t index) const;

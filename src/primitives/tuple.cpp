@@ -1,6 +1,6 @@
 #include "tuple.h"
 
-void Tuple::pushInt(int value) {
+void Tuple::pushInt(size_t value) {
   unsigned int offset = data.size();
   data.push_back(value);
   offsets.push_back(offset);

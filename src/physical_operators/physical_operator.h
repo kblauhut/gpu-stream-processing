@@ -24,4 +24,5 @@ public:
 
   Tuple *consume(PhysicalOperator *consumer);
   void registerConsumerOperator(PhysicalOperator *consumer_operator);
+  void onTupleConsumed(PhysicalOperator *consumer);
 };
