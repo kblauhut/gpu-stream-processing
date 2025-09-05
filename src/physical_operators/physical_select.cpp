@@ -13,13 +13,13 @@ void PhysicalSelect::produce() {
     return;
   }
 
-  Tuple output_tuple = Tuple(*input_tuple);
+  Tuple output_tuple = Tuple();
 
   publishTuple(output_tuple);
   producer_operator->onTupleConsumed(this);
 
   counter++;
-  if (counter % 10 == 0) {
+  if (counter % 10000 == 0) {
     std::cout << "Processed " << counter << " tuples" << std::endl;
   }
 }

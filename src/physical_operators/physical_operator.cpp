@@ -8,7 +8,7 @@ PhysicalOperator::PhysicalOperator(PhysicalOperator *producer_operator) {
 }
 
 void PhysicalOperator::publishTuple(const Tuple &tuple) {
-  consumer_backlog.push_back(tuple); // no need for std::move, since const&
+  consumer_backlog.push_back(tuple);
   this->current_tuple_index++;
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "tuple_schema.h"
 #include <cstddef>
 #include <vector>
 
@@ -14,4 +15,5 @@ public:
 
   int getInt(size_t index) const;
   std::string getString(size_t index) const;
+  void printWithSchema(TupleSchema schema) const;
 };
