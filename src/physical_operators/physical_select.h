@@ -11,5 +11,5 @@ private:
 public:
   PhysicalSelect(PhysicalOperator *producer_operator,
                  const std::vector<size_t> &columns);
-  void produce();
+  void processTuple(Tuple *input_tuple);
 };

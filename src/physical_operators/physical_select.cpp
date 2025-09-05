@@ -7,16 +7,10 @@ PhysicalSelect::PhysicalSelect(PhysicalOperator *producer_operator,
   this->columns = columns;
 }
 
-void PhysicalSelect::produce() {
-  Tuple *input_tuple = producer_operator->consume(this);
-  if (!input_tuple) {
-    return;
-  }
-
+void PhysicalSelect::processTuple(Tuple *input_tuple) {
   Tuple output_tuple = Tuple();
 
   publishTuple(output_tuple);
-  producer_operator->onTupleConsumed(this);
 
   counter++;
   if (counter % 10000 == 0) {

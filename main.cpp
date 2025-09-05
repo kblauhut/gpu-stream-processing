@@ -16,9 +16,9 @@ int main() {
   auto selectOp = PhysicalSelect(&streamSourceOp, {1, 2});
 
   while (true) {
-    fileParseOp.produce();
-    streamSourceOp.produce();
-    selectOp.produce();
+    fileParseOp.run();
+    streamSourceOp.run();
+    selectOp.run();
   }
 
   return 0;

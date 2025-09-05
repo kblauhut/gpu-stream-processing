@@ -12,6 +12,16 @@ void PhysicalOperator::publishTuple(const Tuple &tuple) {
   this->current_tuple_index++;
 }
 
+void PhysicalOperator::run() {
+  Tuple *input_tuple = producer_operator->consume(this);
+  if (!input_tuple) {
+    return;
+  }
+
+  processTuple(input_tuple);
+  producer_operator->onTupleConsumed(this);
+}
+
 Tuple *PhysicalOperator::consume(PhysicalOperator *consumer) {
   if (this->current_tuple_index == 0) {
     return nullptr;
@@ -23,7 +33,7 @@ Tuple *PhysicalOperator::consume(PhysicalOperator *consumer) {
       this->current_tuple_index - consumer_backlog_size;
   size_t tuple_index = consumer_index - index_at_backlog_start;
 
-  if (tuple_index > consumer_backlog_size) {
+  if (tuple_index > consumer_backlog_size - 1) {
     return nullptr;
   }
 

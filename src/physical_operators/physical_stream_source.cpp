@@ -6,16 +6,10 @@ PhysicalStreamSource::PhysicalStreamSource(PhysicalOperator *producer_operator,
     : PhysicalOperator(producer_operator), stream_id(stream_id),
       tuple_schema(tuple_schema) {}
 
-void PhysicalStreamSource::produce() {
-  Tuple *input_tuple = producer_operator->consume(this);
-  if (!input_tuple) {
-    return;
-  }
-
+void PhysicalStreamSource::processTuple(Tuple *input_tuple) {
   int stream_id = input_tuple->getInt(0); // Get stream id
 
   if (stream_id != this->stream_id) {
-    producer_operator->onTupleConsumed(this);
     return;
   }
 
@@ -50,5 +44,4 @@ void PhysicalStreamSource::produce() {
   }
 
   publishTuple(output_tuple);
-  producer_operator->onTupleConsumed(this);
 }

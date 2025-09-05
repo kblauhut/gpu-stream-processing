@@ -20,7 +20,8 @@ public:
   explicit PhysicalOperator(PhysicalOperator *producer_operator);
   virtual ~PhysicalOperator() = default;
 
-  virtual void produce() = 0;
+  virtual void processTuple(Tuple *input_tuple) = 0;
+  virtual void run();
 
   Tuple *consume(PhysicalOperator *consumer);
   void registerConsumerOperator(PhysicalOperator *consumer_operator);
