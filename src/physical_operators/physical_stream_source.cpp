@@ -14,7 +14,7 @@ void PhysicalStreamSource::processTuple(Tuple *input_tuple) {
   }
 
   std::string stream_tuple_raw = input_tuple->getString(1);
-  Tuple output_tuple = Tuple();
+  Tuple *output_tuple = new Tuple();
 
   std::istringstream iss(stream_tuple_raw);
   std::string token;
@@ -26,12 +26,12 @@ void PhysicalStreamSource::processTuple(Tuple *input_tuple) {
     switch (type) {
     case DataType::INTEGER: {
       size_t value = std::stoll(token);
-      output_tuple.pushInt(value);
+      output_tuple->pushInt(value);
       break;
     }
 
     case DataType::STRING: {
-      output_tuple.pushString(token);
+      output_tuple->pushString(token);
       break;
     }
     }

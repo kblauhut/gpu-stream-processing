@@ -40,10 +40,10 @@ public:
     file_buffer_offset =
         (line_end < file_buffer.size()) ? line_end + 1 : line_end;
 
-    Tuple tuple = Tuple();
+    Tuple *tuple = new Tuple();
 
-    tuple.pushInt(stream_type);
-    tuple.pushString(raw_line_data);
+    tuple->pushInt(stream_type);
+    tuple->pushString(raw_line_data);
 
     publishTuple(tuple);
   }

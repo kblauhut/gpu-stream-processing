@@ -10,7 +10,7 @@ PhysicalOperator::PhysicalOperator(PhysicalOperator *producer_operator,
   this->producer_operator->registerConsumerOperator(this);
 }
 
-void PhysicalOperator::publishTuple(const Tuple &tuple) {
+void PhysicalOperator::publishTuple(Tuple *tuple) {
   consumer_backlog.push_back(tuple);
   this->current_tuple_index++;
 }
@@ -40,7 +40,7 @@ Tuple *PhysicalOperator::consume(PhysicalOperator *consumer) {
     return nullptr;
   }
 
-  return &consumer_backlog[tuple_index];
+  return consumer_backlog[tuple_index];
 }
 
 void PhysicalOperator::registerConsumerOperator(

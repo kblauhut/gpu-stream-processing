@@ -8,12 +8,12 @@
 class PhysicalOperator {
 private:
   std::unordered_map<PhysicalOperator *, size_t> consumer_indices;
-  std::vector<Tuple> consumer_backlog;
+  std::vector<Tuple *> consumer_backlog;
   size_t current_tuple_index = 0;
 
 protected:
   PhysicalOperator *producer_operator = nullptr;
-  void publishTuple(const Tuple &tuple);
+  void publishTuple(Tuple *tuple);
 
 public:
   TupleSchema output_schema;
