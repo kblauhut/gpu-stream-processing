@@ -4,7 +4,6 @@
 
 enum class DataType {
   INTEGER = 0,
-  FLOAT = 1,
   STRING = 2,
 };
 
@@ -13,7 +12,7 @@ private:
   std::vector<DataType> dataTypes;
 
 public:
-  TupleSchema(std::vector<DataType> &dataTypes);
+  TupleSchema(std::vector<DataType> dataTypes);
 
   DataType getDataType(size_t index);
 };

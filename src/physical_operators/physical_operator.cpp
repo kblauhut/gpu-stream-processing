@@ -1,8 +1,11 @@
 #include "physical_operator.h"
 
-PhysicalOperator::PhysicalOperator() = default;
+PhysicalOperator::PhysicalOperator(TupleSchema output_schema)
+    : output_schema(output_schema) {}
 
-PhysicalOperator::PhysicalOperator(PhysicalOperator *producer_operator) {
+PhysicalOperator::PhysicalOperator(PhysicalOperator *producer_operator,
+                                   TupleSchema output_schema)
+    : output_schema(output_schema) {
   this->producer_operator = producer_operator;
   this->producer_operator->registerConsumerOperator(this);
 }

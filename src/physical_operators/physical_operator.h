@@ -16,8 +16,11 @@ protected:
   void publishTuple(const Tuple &tuple);
 
 public:
-  PhysicalOperator();
-  explicit PhysicalOperator(PhysicalOperator *producer_operator);
+  TupleSchema output_schema;
+
+  PhysicalOperator(TupleSchema output_schema);
+  PhysicalOperator(PhysicalOperator *producer_operator,
+                   TupleSchema output_schema);
   virtual ~PhysicalOperator() = default;
 
   virtual void processTuple(Tuple *input_tuple) = 0;

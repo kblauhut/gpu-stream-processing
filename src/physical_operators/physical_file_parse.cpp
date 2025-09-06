@@ -1,8 +1,9 @@
 #include "physical_file_parse.h"
 #include <iostream>
 
-PhysicalFileParse::PhysicalFileParse(std::string file_path)
-    : PhysicalOperator() {
+PhysicalFileParse::PhysicalFileParse(TupleSchema output_schema,
+                                     std::string file_path)
+    : PhysicalOperator(output_schema) {
   std::ifstream file(file_path, std::ios::binary | std::ios::ate);
 
   if (!file) {

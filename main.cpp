@@ -5,15 +5,20 @@
 
 int main() {
 
-  auto fileParseOp = PhysicalFileParse("../data/stream_data");
+  auto fileParseOp =
+      PhysicalFileParse(TupleSchema({DataType::INTEGER, DataType::STRING}),
+                        "../data/stream_data");
 
-  std::vector<DataType> dataTypes = {
-      DataType::INTEGER, DataType::INTEGER, DataType::INTEGER, DataType::STRING,
-      DataType::STRING,  DataType::INTEGER, DataType::STRING};
-  auto tuple_schema = TupleSchema(dataTypes);
-  auto streamSourceOp = PhysicalStreamSource(&fileParseOp, 0, tuple_schema);
+  auto streamSourceOp = PhysicalStreamSource(
+      &fileParseOp, 0,
+      TupleSchema({DataType::INTEGER, DataType::INTEGER, DataType::INTEGER,
+                   DataType::STRING, DataType::STRING, DataType::INTEGER,
+                   DataType::STRING}));
 
-  auto selectOp = PhysicalSelect(&streamSourceOp, {1, 2});
+  auto selectOp = PhysicalSelect(
+      &streamSourceOp,
+      TupleSchema({DataType::INTEGER, DataType::INTEGER, DataType::STRING}),
+      {1, 2, 3});
 
   while (true) {
     fileParseOp.run();

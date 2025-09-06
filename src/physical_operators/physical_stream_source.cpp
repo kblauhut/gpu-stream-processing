@@ -2,9 +2,9 @@
 
 PhysicalStreamSource::PhysicalStreamSource(PhysicalOperator *producer_operator,
                                            int stream_id,
-                                           TupleSchema &tuple_schema)
-    : PhysicalOperator(producer_operator), stream_id(stream_id),
-      tuple_schema(tuple_schema) {}
+                                           TupleSchema output_schema)
+    : PhysicalOperator(producer_operator, output_schema), stream_id(stream_id) {
+}
 
 void PhysicalStreamSource::processTuple(Tuple *input_tuple) {
   int stream_id = input_tuple->getInt(0); // Get stream id
@@ -21,7 +21,7 @@ void PhysicalStreamSource::processTuple(Tuple *input_tuple) {
   int idx = 0;
 
   while (iss >> token) {
-    DataType type = tuple_schema.getDataType(idx);
+    DataType type = output_schema.getDataType(idx);
 
     switch (type) {
     case DataType::INTEGER: {
@@ -33,10 +33,6 @@ void PhysicalStreamSource::processTuple(Tuple *input_tuple) {
     case DataType::STRING: {
       output_tuple.pushString(token);
       break;
-    }
-    default: {
-      throw std::runtime_error("Unsupported DataType at index " +
-                               std::to_string(idx));
     }
     }
 

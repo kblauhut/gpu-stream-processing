@@ -8,10 +8,9 @@
 
 class PhysicalStreamSource : public PhysicalOperator {
   int stream_id;
-  TupleSchema tuple_schema;
 
 public:
   explicit PhysicalStreamSource(PhysicalOperator *producer_operator,
-                                int stream_id, TupleSchema &tuple_schema);
+                                int stream_id, TupleSchema output_schema);
   void processTuple(Tuple *input_tuple);
 };

@@ -11,7 +11,7 @@ private:
   size_t file_buffer_offset = 0;
 
 public:
-  explicit PhysicalFileParse(std::string file_path);
+  explicit PhysicalFileParse(TupleSchema output_schema, std::string file_path);
 
   void processTuple(Tuple *input_tuple) override { return; };
   void run() override {
