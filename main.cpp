@@ -1,53 +1,37 @@
-#include "src/physical_operators/physical_file_parse.h"
 #include "src/physical_operators/physical_select.h"
-#include "src/physical_operators/physical_stream_source.h"
 #include "src/primitives/tuple_schema.h"
-#include <thread>
+#include "src/sink/physical_sink.h"
+#include "src/stream/physical_file_stream.h"
+#include "src/stream/physical_stream.h"
 
 int main() {
 
-  auto fileParseOp =
-      PhysicalFileParse(TupleSchema({DataType::INTEGER, DataType::STRING}),
-                        "../data/stream_data");
+  auto physicalFileStream = PhysicalFileStream("../data/stream_data");
 
-  auto streamSourceOp = PhysicalStreamSource(
-      &fileParseOp, 0,
+  auto schema =
       TupleSchema({DataType::INTEGER, DataType::INTEGER, DataType::INTEGER,
                    DataType::STRING, DataType::STRING, DataType::INTEGER,
-                   DataType::STRING}));
+                   DataType::STRING});
 
-  auto selectOp = PhysicalSelect(
-      &streamSourceOp,
+  auto physicalStream = PhysicalStream(&physicalFileStream, 0, schema);
+  auto physicalSelectOp1 = PhysicalSelect(
+      {&physicalStream},
       TupleSchema({DataType::INTEGER, DataType::INTEGER, DataType::STRING}),
-      {1, 2, 3});
+      {1, 2, 3}, schema);
 
-  // std::thread t1([&]() {
-  //   while (true) {
-  //     fileParseOp.run();
-  //   }
-  // });
+  auto physicalSelectOp2 = PhysicalSelect(
+      {&physicalStream}, TupleSchema({DataType::STRING}), {3}, schema);
 
-  // std::thread t2([&]() {
-  //   while (true) {
-  //     streamSourceOp.run();
-  //   }
-  // });
-
-  // std::thread t3([&]() {
-  //   while (true) {
-  //     selectOp.run();
-  //   }
-  // });
-
-  // t1.join();
-  // t2.join();
-  // t3.join();
+  auto physicalSink1 = PhysicalSink({&physicalSelectOp1});
+  auto physicalSink2 = PhysicalSink({&physicalSelectOp2});
 
   while (true) {
-    fileParseOp.run();
-    streamSourceOp.run();
-    selectOp.run();
+    physicalFileStream.run();
+    physicalStream.run();
+    physicalSelectOp1.run();
+    physicalSelectOp2.run();
+    physicalSink1.run();
+    physicalSink2.run();
   }
-
   return 0;
 }

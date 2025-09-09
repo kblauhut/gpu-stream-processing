@@ -1,12 +1,17 @@
-#include "physical_stream_source.h"
+#include "physical_stream.h"
 
-PhysicalStreamSource::PhysicalStreamSource(PhysicalOperator *producer_operator,
-                                           int stream_id,
-                                           TupleSchema output_schema)
-    : PhysicalOperator(producer_operator, output_schema), stream_id(stream_id) {
+void PhysicalStream::run() {
+  Tuple *input_tuple = this->producers[0]->getCurrentTuple(this);
+  if (!input_tuple) {
+    return;
+  }
+
+  consumeTuple(input_tuple);
+
+  this->producers[0]->ackCurrentTuple(this);
 }
 
-void PhysicalStreamSource::processTuple(Tuple *input_tuple) {
+void PhysicalStream::consumeTuple(Tuple *input_tuple) {
   int stream_id = input_tuple->getInt(0); // Get stream id
 
   if (stream_id != this->stream_id) {

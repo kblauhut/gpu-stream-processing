@@ -1,15 +1,6 @@
 #include "physical_select.h"
-#include <iostream>
 
-PhysicalSelect::PhysicalSelect(PhysicalOperator *producer_operator,
-                               TupleSchema output_schema,
-                               const std::vector<size_t> &columns)
-    : PhysicalOperator(producer_operator, output_schema),
-      producer_schema(producer_operator->output_schema) {
-  this->columns = columns;
-}
-
-void PhysicalSelect::processTuple(Tuple *input_tuple) {
+void PhysicalSelect::consumeTuple(Tuple *input_tuple) {
   Tuple *output_tuple = new Tuple();
 
   for (size_t i = 0; i < columns.size(); i++) {
@@ -31,9 +22,4 @@ void PhysicalSelect::processTuple(Tuple *input_tuple) {
   }
 
   publishTuple(output_tuple);
-
-  counter++;
-  if (counter % 10000 == 0) {
-    std::cout << "Processed " << counter << " tuples" << std::endl;
-  }
 }
