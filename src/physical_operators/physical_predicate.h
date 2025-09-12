@@ -3,15 +3,16 @@
 #include "physical_operator.h"
 #include <cstddef>
 
-class PhysicalSelect : public PhysicalOperator {
+class PhysicalPredicate : public PhysicalOperator {
 private:
   std::vector<size_t> columns;
   TupleSchema producer_schema;
 
 public:
-  PhysicalSelect(std::vector<TupleProducer *> producers,
-                 TupleSchema output_schema, const std::vector<size_t> &columns,
-                 TupleSchema producer_schema)
+  PhysicalPredicate(std::vector<TupleProducer *> producers,
+                    TupleSchema output_schema,
+                    const std::vector<size_t> &columns,
+                    TupleSchema producer_schema)
       : PhysicalOperator(producers, output_schema),
         producer_schema(producer_schema) {
     this->columns = columns;

@@ -1,6 +1,6 @@
-#include "physical_select.h"
+#include "physical_predicate.h"
 
-void PhysicalSelect::consumeTuple(Tuple *input_tuple) {
+void PhysicalPredicate::consumeTuple(Tuple *input_tuple) {
   Tuple *output_tuple = new Tuple();
 
   for (size_t i = 0; i < columns.size(); i++) {
