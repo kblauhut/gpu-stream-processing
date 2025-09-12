@@ -3,6 +3,7 @@
 #include "../primitives/tuple.h"
 #include "runnable.h"
 #include <cstddef>
+#include <mutex>
 #include <unordered_map>
 #include <vector>
 
@@ -12,6 +13,7 @@ class TupleProducer {
 public:
   TupleSchema output_schema;
   bool is_closed = false;
+  std::mutex mutex;
 
 protected:
   std::unordered_map<TupleConsumer *, size_t> consumer_indices;

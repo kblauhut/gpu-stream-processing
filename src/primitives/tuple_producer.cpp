@@ -1,6 +1,8 @@
 #include "tuple_producer.h"
+#include <mutex>
 
 Tuple *TupleProducer::getCurrentTuple(TupleConsumer *consumer) {
+  std::lock_guard lock(mutex);
   if (this->current_tuple_index == 0) {
     return nullptr;
   }
@@ -23,10 +25,12 @@ void TupleProducer::registerConsumer(TupleConsumer *consumer_operator) {
 }
 
 void TupleProducer::ackCurrentTuple(TupleConsumer *consumer) {
+  std::lock_guard lock(mutex);
   consumer_indices[consumer]++;
 }
 
 void TupleProducer::publishTuple(Tuple *tuple) {
+  std::lock_guard lock(mutex);
   consumer_backlog.push_back(tuple);
   this->current_tuple_index++;
 }

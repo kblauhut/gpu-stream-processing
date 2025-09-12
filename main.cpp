@@ -90,7 +90,10 @@ int main() {
   //   physicalStream.run();
   //   physicalProjectOp.run();
   //   physicalPredicateOp.run();
-  //   physicalSink.run();
+  //   auto complete = physicalSink.run();
+  //   if (complete == RunnableState::CLOSED) {
+  //     break;
+  //   }
   // }
 
   return 0;
