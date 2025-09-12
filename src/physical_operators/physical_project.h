@@ -1,7 +1,6 @@
 #pragma once
 
 #include "physical_operator.h"
-#include <cstddef>
 
 struct PhysicalProjectOptions {
   std::vector<size_t> columns;

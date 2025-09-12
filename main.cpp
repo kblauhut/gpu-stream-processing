@@ -1,3 +1,4 @@
+#include "src/physical_operators/physical_predicate.h"
 #include "src/physical_operators/physical_project.h"
 #include "src/primitives/tuple_schema.h"
 #include "src/sink/physical_sink.h"
@@ -18,24 +19,28 @@ int main() {
                                               .stream_id = 0,
                                           });
 
-  auto physicalProjectOp1 =
+  auto physicalProjectOp =
       PhysicalProject({&physicalStream}, {
                                              .columns = {1, 2, 3},
                                          });
 
-  auto physicalProjectOp2 =
-      PhysicalProject({&physicalStream}, {.columns = {3}});
+  auto physicalPredicateOp = PhysicalPredicate(
+      {&physicalProjectOp}, {
+                                .comparison_op = ComparisonOp::EQUAL,
+                                .l_value_column = 0,
+                                .r_value = 1011,
+                                .r_source = ValueSource::LITERAL,
+                            });
 
-  auto physicalSink1 = PhysicalSink({&physicalProjectOp1});
-  auto physicalSink2 = PhysicalSink({&physicalProjectOp2});
+  auto physicalSink = PhysicalSink({&physicalPredicateOp});
 
   while (true) {
     physicalFileStream.run();
     physicalStream.run();
-    physicalProjectOp1.run();
-    physicalProjectOp2.run();
-    physicalSink1.run();
-    physicalSink2.run();
+    physicalProjectOp.run();
+    physicalPredicateOp.run();
+    physicalSink.run();
   }
+
   return 0;
 }
