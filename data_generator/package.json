@@ -2,7 +2,9 @@
   "name": "data_generator",
   "type": "module",
   "dependencies": {
+    "@types/cli-progress": "^3.11.6",
     "@types/node": "^24.3.0",
+    "cli-progress": "^3.12.0",
     "commander": "^14.0.0",
     "execa": "^9.6.0",
     "tsx": "^4.20.5",
