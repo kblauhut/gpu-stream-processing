@@ -1,5 +1,6 @@
 #pragma once
 
+#include "runnable.h"
 #include "tuple_producer.h"
 #include <vector>
 
@@ -13,5 +14,5 @@ public:
   ~TupleConsumer() = default;
 
   virtual void consumeTuple(Tuple *input_tuple) = 0;
-  virtual void run() = 0;
+  virtual RunnableState run() = 0;
 };

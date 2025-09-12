@@ -12,5 +12,5 @@ public:
       : TupleConsumer(producers) {}
 
   void consumeTuple(Tuple *tuple);
-  void run();
+  RunnableState run();
 };

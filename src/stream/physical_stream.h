@@ -24,5 +24,5 @@ public:
   ~PhysicalStream() = default;
 
   void consumeTuple(Tuple *input_tuple) override;
-  void run() override;
+  RunnableState run() override;
 };

@@ -16,5 +16,5 @@ public:
   PhysicalFileStream(std::string file_path);
   ~PhysicalFileStream() = default;
 
-  void run() override;
+  RunnableState run() override;
 };

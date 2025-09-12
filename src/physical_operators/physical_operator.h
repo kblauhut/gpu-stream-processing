@@ -19,5 +19,5 @@ public:
 
   virtual ~PhysicalOperator() = default;
 
-  void run();
+  RunnableState run();
 };

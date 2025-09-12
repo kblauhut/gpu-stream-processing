@@ -17,9 +17,10 @@ PhysicalFileStream::PhysicalFileStream(std::string file_path)
   }
 }
 
-void PhysicalFileStream::run() {
+RunnableState PhysicalFileStream::run() {
   if (file_buffer_offset >= file_buffer.size()) {
-    return;
+    is_closed = true;
+    return RunnableState::CLOSED;
   }
 
   size_t first_token_end = file_buffer_offset;
@@ -49,4 +50,5 @@ void PhysicalFileStream::run() {
   tuple->pushString(raw_line_data);
 
   publishTuple(tuple);
+  return RunnableState::OPEN;
 }

@@ -30,3 +30,5 @@ void TupleProducer::publishTuple(Tuple *tuple) {
   consumer_backlog.push_back(tuple);
   this->current_tuple_index++;
 }
+
+bool TupleProducer::isClosed() const { return is_closed; }

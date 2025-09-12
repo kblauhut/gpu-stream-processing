@@ -1,13 +1,18 @@
 #include "physical_sink.h"
 
-void PhysicalSink::run() {
+RunnableState PhysicalSink::run() {
   Tuple *input_tuple = this->producers[0]->getCurrentTuple(this);
   if (!input_tuple) {
-    return;
+    if (this->producers[0]->isClosed()) {
+      return RunnableState::CLOSED;
+    }
+    return RunnableState::OPEN;
   }
 
   consumeTuple(input_tuple);
   this->producers[0]->ackCurrentTuple(this);
+
+  return RunnableState::OPEN;
 }
 
 void PhysicalSink::consumeTuple(Tuple *tuple) {
