@@ -8,16 +8,19 @@
 #include <sstream>
 #include <string>
 
-class PhysicalStream : public TupleProducer, public TupleConsumer {
-private:
+struct PhysicalStreamOptions {
   int stream_id;
   TupleSchema output_schema;
+};
+
+class PhysicalStream : public TupleProducer, public TupleConsumer {
+private:
+  PhysicalStreamOptions options;
 
 public:
-  PhysicalStream(PhysicalFileStream *file_stream, int stream_id,
-                 TupleSchema output_schema)
-      : TupleProducer(), TupleConsumer({file_stream}), stream_id(stream_id),
-        output_schema(output_schema) {}
+  PhysicalStream(PhysicalFileStream *file_stream, PhysicalStreamOptions options)
+      : TupleProducer(options.output_schema), TupleConsumer({file_stream}),
+        options(options) {}
   ~PhysicalStream() = default;
 
   void consumeTuple(Tuple *input_tuple) override;

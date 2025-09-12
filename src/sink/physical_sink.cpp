@@ -11,8 +11,11 @@ void PhysicalSink::run() {
 }
 
 void PhysicalSink::consumeTuple(Tuple *tuple) {
+  auto &producer_schema = producers[0]->output_schema;
+
   counter++;
   if (counter % 1000 == 0) {
+    tuple->printWithSchema(producer_schema);
     std::cout << "Processed " << counter << " tuples" << std::endl;
   }
 }

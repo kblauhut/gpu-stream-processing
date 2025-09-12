@@ -1,6 +1,7 @@
 #include "physical_file_stream.h"
 
-PhysicalFileStream::PhysicalFileStream(std::string file_path) {
+PhysicalFileStream::PhysicalFileStream(std::string file_path)
+    : TupleProducer(TupleSchema({DataType::INTEGER, DataType::STRING})) {
   std::ifstream file(file_path, std::ios::binary | std::ios::ate);
 
   if (!file) {

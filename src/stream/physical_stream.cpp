@@ -14,7 +14,7 @@ void PhysicalStream::run() {
 void PhysicalStream::consumeTuple(Tuple *input_tuple) {
   int stream_id = input_tuple->getInt(0); // Get stream id
 
-  if (stream_id != this->stream_id) {
+  if (stream_id != options.stream_id) {
     return;
   }
 

@@ -12,14 +12,19 @@ int main() {
                    DataType::STRING, DataType::STRING, DataType::INTEGER,
                    DataType::STRING});
 
-  auto physicalStream = PhysicalStream(&physicalFileStream, 0, schema);
-  auto physicalProjectOp1 = PhysicalProject(
-      {&physicalStream},
-      TupleSchema({DataType::INTEGER, DataType::INTEGER, DataType::STRING}),
-      {1, 2, 3}, schema);
+  auto physicalStream =
+      PhysicalStream(&physicalFileStream, {
+                                              .output_schema = schema,
+                                              .stream_id = 0,
+                                          });
 
-  auto physicalProjectOp2 = PhysicalProject(
-      {&physicalStream}, TupleSchema({DataType::STRING}), {3}, schema);
+  auto physicalProjectOp1 =
+      PhysicalProject({&physicalStream}, {
+                                             .columns = {1, 2, 3},
+                                         });
+
+  auto physicalProjectOp2 =
+      PhysicalProject({&physicalStream}, {.columns = {3}});
 
   auto physicalSink1 = PhysicalSink({&physicalProjectOp1});
   auto physicalSink2 = PhysicalSink({&physicalProjectOp2});

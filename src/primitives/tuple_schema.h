@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 
 enum class DataType {
@@ -15,4 +16,5 @@ public:
   TupleSchema(std::vector<DataType> dataTypes);
 
   DataType getDataType(size_t index);
+  void print();
 };

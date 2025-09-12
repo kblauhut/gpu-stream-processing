@@ -9,13 +9,9 @@
 
 class PhysicalOperator : public TupleProducer, public TupleConsumer {
 public:
-  TupleSchema output_schema;
-
-  PhysicalOperator(TupleSchema output_schema)
-      : TupleConsumer({}), output_schema({}) {}
   PhysicalOperator(std::vector<TupleProducer *> producers,
                    TupleSchema output_schema)
-      : TupleConsumer(producers), output_schema(output_schema) {
+      : TupleProducer(output_schema), TupleConsumer(producers) {
     for (auto &producer : producers) {
       producer->registerConsumer(this);
     }

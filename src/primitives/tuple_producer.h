@@ -8,13 +8,17 @@
 class TupleConsumer;
 
 class TupleProducer {
+public:
+  TupleSchema output_schema;
+
 protected:
   std::unordered_map<TupleConsumer *, size_t> consumer_indices;
   std::vector<Tuple *> consumer_backlog;
   size_t current_tuple_index = 0;
 
 public:
-  TupleProducer() : consumer_indices(), consumer_backlog() {}
+  TupleProducer(TupleSchema output_schema)
+      : output_schema(output_schema), consumer_indices(), consumer_backlog() {}
   ~TupleProducer() = default;
 
   void publishTuple(Tuple *tuple);
