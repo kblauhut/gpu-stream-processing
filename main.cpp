@@ -72,6 +72,34 @@ int main() {
     } while (state != RunnableState::CLOSED);
   });
 
+  auto t_metrics = std::thread([&physicalFileStream] {
+    int last_tuple_index = 0;
+    auto last_time_stamp = std::chrono::steady_clock::now();
+
+    while (!physicalFileStream.isClosed()) {
+      auto current_tuple_index = physicalFileStream.getCurrentTupleIndex();
+      auto current_time_stamp = std::chrono::steady_clock::now();
+      double period_duration_s =
+          std::chrono::duration_cast<std::chrono::nanoseconds>(
+              current_time_stamp - last_time_stamp)
+              .count() /
+          1e9;
+
+      double tuples_per_second =
+          (current_tuple_index - last_tuple_index) / period_duration_s;
+      last_tuple_index = current_tuple_index;
+      last_time_stamp = current_time_stamp;
+
+      std::cout << "Tuples per second: " << tuples_per_second << std::endl;
+      std::cout << "Unprocessed tuples: "
+                << physicalFileStream.getUnprocessedTupleCount() << std::endl;
+      std::cout << std::endl;
+      std::cout << std::endl;
+
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+  });
+
   std::cout << "Running threads..." << std::endl;
   t1.join();
   std::cout << "Thread 1 joined successfully." << std::endl;
@@ -83,6 +111,10 @@ int main() {
   std::cout << "Thread 4 joined successfully." << std::endl;
   t5.join();
   std::cout << "Thread 5 joined successfully." << std::endl;
+
+  t_metrics.join();
+  std::cout << "Metrics thread joined successfully." << std::endl;
+
   std::cout << "All threads joined successfully." << std::endl;
 
   // while (true) {

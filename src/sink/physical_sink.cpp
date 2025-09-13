@@ -18,11 +18,11 @@ RunnableState PhysicalSink::run() {
 }
 
 void PhysicalSink::consumeTuple(Tuple *tuple) {
-  auto &producer_schema = producers[0]->output_schema;
+  // auto &producer_schema = producers[0]->output_schema;
 
   counter++;
-  if (counter % 1 == 0) {
-    tuple->printWithSchema(producer_schema);
-    std::cout << "Processed " << counter << " tuples" << std::endl;
-  }
+  // if (counter % 1 == 0) {
+  //   tuple->printWithSchema(producer_schema);
+  //   std::cout << "Processed " << counter << " tuples" << std::endl;
+  // }
 }

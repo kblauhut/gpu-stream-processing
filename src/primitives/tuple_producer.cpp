@@ -36,3 +36,16 @@ void TupleProducer::publishTuple(Tuple *tuple) {
 }
 
 bool TupleProducer::isClosed() const { return is_closed; }
+
+int TupleProducer::getUnprocessedTupleCount() {
+  std::lock_guard lock(mutex);
+  size_t max_consumer_index = 0;
+  for (auto &pair : consumer_indices) {
+    max_consumer_index = std::max(max_consumer_index, pair.second);
+  }
+  return this->current_tuple_index - max_consumer_index;
+}
+
+int TupleProducer::getCurrentTupleIndex() const {
+  return this->current_tuple_index;
+}

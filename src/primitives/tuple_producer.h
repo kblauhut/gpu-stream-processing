@@ -32,4 +32,8 @@ public:
   Tuple *getCurrentTuple(TupleConsumer *consumer);
   void ackCurrentTuple(TupleConsumer *consumer);
   bool isClosed() const;
+
+  // Metrics
+  int getUnprocessedTupleCount();
+  int getCurrentTupleIndex() const;
 };
