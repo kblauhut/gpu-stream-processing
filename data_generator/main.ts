@@ -40,7 +40,7 @@ writeFileSync(filePath, "");
 
 const subprocess = execa("nexmark", ["-n", numEvents.toString()], {
   stdout: "pipe",
-  maxBuffer: 1024 * 1024 * 200,
+  maxBuffer: 1024 * 1024 * 2000,
 });
 
 subprocess.stdout.setEncoding("utf8");
