@@ -1,4 +1,5 @@
 #include "physical_sink.h"
+#include <thread>
 
 RunnableState PhysicalSink::run() {
   Tuple *input_tuple = this->producers[0]->getCurrentTuple(this);
@@ -6,6 +7,7 @@ RunnableState PhysicalSink::run() {
     if (this->producers[0]->isClosed()) {
       return RunnableState::CLOSED;
     }
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     return RunnableState::OPEN;
   }
 

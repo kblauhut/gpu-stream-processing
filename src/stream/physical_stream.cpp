@@ -1,4 +1,5 @@
 #include "physical_stream.h"
+#include <thread>
 
 RunnableState PhysicalStream::run() {
   Tuple *input_tuple = this->producers[0]->getCurrentTuple(this);
@@ -7,6 +8,7 @@ RunnableState PhysicalStream::run() {
       is_closed = true;
       return RunnableState::CLOSED;
     }
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
     return RunnableState::OPEN;
   }
 
